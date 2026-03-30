@@ -5,94 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>神秘测试</title>
     <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #fff0f0;
-            font-family: "Microsoft YaHei", sans-serif;
-        }
-        .container {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            text-align: center;
-            max-width: 350px;
-            width: 90%;
-        }
-        h2 { color: #333; margin-bottom: 25px; }
-        input {
-            width: 80%;
-            padding: 12px;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            outline: none;
-            text-align: center;
-            font-size: 16px;
-        }
-        button {
-            background-color: #ff7675;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        button:hover { background-color: #d63031; }
-        .result-area { display: none; margin-top: 20px; }
-        .result-text { color: #ff7675; font-weight: bold; margin-bottom: 15px; }
-        img {
-            max-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #fff0f0; font-family: sans-serif; }
+        .container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center; max-width: 350px; width: 90%; }
+        .step { display: none; }
+        .active { display: block; }
+        h2 { color: #333; margin-bottom: 25px; font-size: 20px; }
+        input { width: 80%; padding: 12px; border: 1px solid #eee; border-radius: 10px; margin-bottom: 20px; outline: none; text-align: center; font-size: 16px; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; align-items: center; }
+        button { background-color: #ff7675; color: white; border: none; padding: 12px 40px; border-radius: 25px; cursor: pointer; font-size: 16px; width: 80%; transition: 0.3s; }
+        button:hover { background-color: #fb6060; transform: scale(1.05); }
+        img { max-width: 100%; border-radius: 15px; margin-top: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <div id="inputArea">
-            <h2>谁是世界上<br>最可爱的人？</h2>
-            <input type="text" id="nameInput" placeholder="请输入名字">
-            <br>
-            <button onclick="checkName()">确定</button>
+        <div id="step1" class="step active">
+            <h2>第一关：谁是世界上<br>最可爱的人？</h2>
+            <input type="text" id="ans1" placeholder="请输入名字">
+            <br><button onclick="checkStep1()">确定</button>
         </div>
 
-        <div id="resultArea" class="result-area">
-            <p class="result-text">当然是她啦！✨</p>
+        <div id="step2" class="step">
+            <h2>第二关：你想知道<br>她长什么样吗？</h2>
+            <div class="btn-group">
+                <button onclick="showFinal()">想</button>
+                <button onclick="showFinal()">超级想</button>
+            </div>
+        </div>
+
+        <div id="final" class="step">
+            <h2 style="color: #ff7675;">当然是她啦！✨</h2>
             <img src="吕.jpg" alt="最可爱的人">
         </div>
     </div>
 
     <script>
-        function checkName() {
-            const input = document.getElementById('nameInput');
-            const inputArea = document.getElementById('inputArea');
-            const resultArea = document.getElementById('resultArea');
-
-            if (input.value.trim() === "吕沁雯") {
-                inputArea.style.display = 'none';
-                resultArea.style.display = 'block';
-                alert("回答正确！🎉");
+        function checkStep1() {
+            const val = document.getElementById('ans1').value.trim();
+            // 依然保持之前的名字逻辑
+            if (val === "吕沁雯") {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
             } else {
                 alert("不对哦，再认真想想~");
-                input.value = "";
-                input.focus();
             }
         }
 
-        // 支持回车键提交
-        document.getElementById('nameInput').addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                checkName();
-            }
-        });
+        // 无论点哪个按钮都会触发这个函数
+        function showFinal() {
+            document.getElementById('step2').classList.remove('active');
+            document.getElementById('final').classList.add('active');
+            alert("看好咯！🎉");
+        }
     </script>
 </body>
 </html>
